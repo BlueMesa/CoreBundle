@@ -12,7 +12,7 @@
 namespace Bluemesa\Bundle\CoreBundle\Request\ParamConverter;
 
 use Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\DoctrineParamConverter as SensioDoctrineParamConverter;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ConfigurationInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ManagerRegistry;
@@ -39,12 +39,12 @@ class DoctrineParamConverter extends SensioDoctrineParamConverter
     /**
      * Apply the converter
      *
-     * @param  Symfony\Component\HttpFoundation\Request                                $request
-     * @param  Sensio\Bundle\FrameworkExtraBundle\Configuration\ConfigurationInterface $configuration
+     * @param  Symfony\Component\HttpFoundation\Request                        $request
+     * @param  Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter $configuration
      * @return boolean
      * @throws Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      */
-    public function apply(Request $request, ConfigurationInterface $configuration)
+    public function apply(Request $request, ParamConverter $configuration)
     {
         $name    = $configuration->getName();
         $options = $this->getOptions($configuration);
@@ -68,10 +68,10 @@ class DoctrineParamConverter extends SensioDoctrineParamConverter
     /**
      * Get options
      *
-     * @param  Sensio\Bundle\FrameworkExtraBundle\Configuration\ConfigurationInterface $configuration
+     * @param  Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter $configuration
      * @return array
      */
-    protected function getOptions(ConfigurationInterface $configuration)
+    protected function getOptions(ParamConverter $configuration)
     {
         return array_replace(array(
             'error_message'  => 'Not Found'
