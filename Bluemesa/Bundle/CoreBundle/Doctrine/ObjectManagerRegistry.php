@@ -101,12 +101,17 @@ class ObjectManagerRegistry
     private function getAncestorDepth($class, $ancestor)
     {
         if ($class == $ancestor) {
+            
             return 0;
+            
         } else {
             if ((false === ($parent = get_parent_class($class)))||
                 (false === ($depth = $this->getAncestorDepth($parent, $ancestor)))) {
+                
                 return false;
+                
             } else {
+                
                 return 1 + $depth;
             }
         }
