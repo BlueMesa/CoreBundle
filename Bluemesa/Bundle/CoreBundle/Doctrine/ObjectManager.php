@@ -38,7 +38,7 @@ use VIB\SecurityBundle\Bridge\Doctrine\AclFilter;
  *
  * @author Radoslaw Kamil Ejsmont <radoslaw@ejsmont.net>
  * 
- * @DI\Service("bluemesa.doctrine.manager")
+ * @DI\Service("bluemesa_core.doctrine.manager")
  * @DI\Tag("bluemesa_core.object_manager")
  */
 class ObjectManager extends ObjectManagerDecorator
