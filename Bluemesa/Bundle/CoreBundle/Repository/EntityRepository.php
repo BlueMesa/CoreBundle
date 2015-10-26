@@ -65,7 +65,7 @@ class EntityRepository extends BaseEntityRepository
     /**
      * Set the Object manager service
      * 
-     * @DI\InjectParams({ "objectManager" = @DI\Inject("vib.doctrine.manager") })
+     * @DI\InjectParams({ "objectManager" = @DI\Inject("bluemesa.doctrine.manager") })
      * 
      * @param Bluemesa\Bundle\CoreBundle\Doctrine\ObjectManager
      */
