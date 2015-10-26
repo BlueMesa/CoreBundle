@@ -12,9 +12,12 @@
 namespace Bluemesa\Bundle\CoreBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Bluemesa\Bundle\CoreBundle\DependencyInjection\ManagerCompilerPass;
+
 
 /**
- * VIBCoreBundle
+ * BluemesaCoreBundle
  *
  * @author Radoslaw Kamil Ejsmont <radoslaw@ejsmont.net>
  */
@@ -23,7 +26,7 @@ class BluemesaCoreBundle extends Bundle
     /**
      * Build the bundle
      * 
-     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
+     * @param Symfony\Component\DependencyInjection\ContainerBuilder $container
      */
     public function build(ContainerBuilder $container)
     {
