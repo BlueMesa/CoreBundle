@@ -25,12 +25,12 @@ class ManagerCompilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
-        if (! $container->hasDefinition('bluemesa_core.doctrine.registry')) {
+        if (! $container->hasDefinition('bluemesa.core.doctrine.registry')) {
             return;
         }
         
         $definition = $container->getDefinition(
-            'bluemesa_core.doctrine.registry'
+            'bluemesa.core.doctrine.registry'
         );
         
         $taggedServices = $container->findTaggedServiceIds(

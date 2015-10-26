@@ -19,7 +19,7 @@ use Doctrine\Common\Persistence\ManagerRegistry;
  *
  * @author Radoslaw Kamil Ejsmont <radoslaw@ejsmont.net>
  * 
- * @DI\Service("bluemesa_core.doctrine.registry")
+ * @DI\Service("bluemesa.core.doctrine.registry")
  */
 class ObjectManagerRegistry
 {

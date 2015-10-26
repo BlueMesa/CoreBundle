@@ -39,7 +39,7 @@ class AbstractController extends Controller
      */
     protected function getObjectManager($object = null)
     {
-        return $this->get('bluemesa_core.doctrine.registry')->getManagerForClass($object);
+        return $this->get('bluemesa.core.doctrine.registry')->getManagerForClass($object);
     }
 
     /**

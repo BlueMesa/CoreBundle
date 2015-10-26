@@ -40,7 +40,7 @@ class AclDoctrineListener {
      * Construct AclDoctrineListener
      * 
      * @DI\InjectParams({
-     *     "registry" = @DI\Inject("bluemesa_core.doctrine.registry"),
+     *     "registry" = @DI\Inject("bluemesa.core.doctrine.registry"),
      * })
      * 
      * @param Bluemesa\Bundle\CoreBundle\Doctrine\ObjectManagerRegistry  $registry

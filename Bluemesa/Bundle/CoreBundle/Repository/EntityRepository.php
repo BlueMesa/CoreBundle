@@ -65,7 +65,7 @@ class EntityRepository extends BaseEntityRepository
     /**
      * Set the Object manager service
      * 
-     * @DI\InjectParams({ "objectManager" = @DI\Inject("bluemesa_core.doctrine.manager") })
+     * @DI\InjectParams({ "objectManager" = @DI\Inject("bluemesa.core.doctrine.manager") })
      * 
      * @param Bluemesa\Bundle\CoreBundle\Doctrine\ObjectManager
      */

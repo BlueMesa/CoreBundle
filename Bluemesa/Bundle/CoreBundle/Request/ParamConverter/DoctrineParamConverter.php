@@ -22,7 +22,7 @@ use Doctrine\Common\Persistence\ManagerRegistry;
  * @author Radoslaw Kamil Ejsmont <radoslaw@ejsmont.net>
  * 
  * @Service("bluemesa.converter.doctrine")
- * @Tag("request.param_converter", attributes = {"priority"=2, "converter"="bluemesa_core.doctrine"})
+ * @Tag("request.param_converter", attributes = {"priority"=2, "converter"="bluemesa.core.doctrine"})
  */
 class DoctrineParamConverter extends SensioDoctrineParamConverter
 {
