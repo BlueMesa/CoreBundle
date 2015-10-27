@@ -20,17 +20,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
  */
 class AbstractController extends Controller
 {
-
-    /**
-     * Get security context
-     *
-     * @return Symfony\Component\Security\Core\SecurityContextInterface
-     */
-    protected function getSecurityContext()
-    {
-        return $this->get('security.context');
-    }
-
     /**
      * Get object manager
      *
@@ -71,17 +60,7 @@ class AbstractController extends Controller
     {
         return $this->getRequest()->query->get('page', 1);
     }
-
-    /**
-     * Get ACL filter
-     *
-     * @return VIB\SecurityBundle\Bridge\Doctrine\AclFilter
-     */
-    protected function getAclFilter()
-    {
-        return $this->get('vib.security.filter.acl');
-    }
-
+    
     /**
      * Adds a flash message for type
      *

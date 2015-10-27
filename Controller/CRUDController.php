@@ -13,48 +13,22 @@ namespace Bluemesa\Bundle\CoreBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use JMS\SecurityExtraBundle\Annotation\Secure;
 
 use Doctrine\ORM\NoResultException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Symfony\Component\Security\Core\User\UserInterface;
 
-use Bluemesa\Bundle\CoreBundle\Form\AclType;
 use Bluemesa\Bundle\CoreBundle\Filter\RedirectFilterInterface;
 
 /**
- * Base class for CRUD operations CRUDController
+ * Base class for CRUD operations
  *
  * @author Radoslaw Kamil Ejsmont <radoslaw@ejsmont.net>
  */
 abstract class CRUDController extends AbstractController
 {
-
-    /**
-     * Entity class for this controller
-     *
-     * @var string
-     */
-    protected $entityClass;
-
-    /**
-     * Entity name for this controller
-     *
-     * @var string
-     */
-    protected $entityName;
-
-    /**
-     * Construct CRUDController
-     *
-     */
-    public function __construct()
-    {
-        $this->entityClass = null;
-        $this->entityName = 'entity|entities';
-    }
+    const ENTITY_CLASS = null;
+    const ENTITY_NAME = 'entity|entities';
 
     /**
      * {@inheritdoc}
@@ -72,14 +46,12 @@ abstract class CRUDController extends AbstractController
      * @Route("/")
      * @Route("/list/{filter}")
      * @Template()
-     * @Secure(roles="ROLE_USER, ROLE_ADMIN")
      *
      * @return Symfony\Component\HttpFoundation\Response
      */
     public function listAction()
     {
-        $filter = $this->getFilter();
-        
+        $filter = $this->getFilter();       
         if (($filter instanceof RedirectFilterInterface)&&($filter->needRedirect())) {
             
             return $this->getFilterRedirect($filter);
@@ -107,15 +79,9 @@ abstract class CRUDController extends AbstractController
      */
     public function showAction($id)
     {
-        $om = $this->getObjectManager();
         $entity = $this->getEntity($id);
-        $owner = $om->getOwner($entity);
-        $securityContext = $this->getSecurityContext();
-        if (!($securityContext->isGranted('ROLE_ADMIN')||$securityContext->isGranted('VIEW', $entity))) {
-            throw new AccessDeniedException();
-        }
 
-        return array('entity' => $entity, 'owner' => $owner);
+        return array('entity' => $entity);
     }
 
     /**
@@ -163,10 +129,6 @@ abstract class CRUDController extends AbstractController
     {
         $om = $this->getObjectManager();
         $entity = $this->getEntity($id);
-        $securityContext = $this->getSecurityContext();
-        if (!($securityContext->isGranted('ROLE_ADMIN')||$securityContext->isGranted('EDIT', $entity))) {
-            throw new AccessDeniedException();
-        }
         $form = $this->createForm($this->getEditForm(), $entity);
         $request = $this->getRequest();
         if ($request->getMethod() == 'POST') {
@@ -177,7 +139,7 @@ abstract class CRUDController extends AbstractController
                 $message = 'Changes to ' . $this->getEntityName() . ' ' . $entity . ' were saved.';
                 $this->addSessionFlash('success', $message);
                 $route = str_replace("_edit", "_show", $request->attributes->get('_route'));
-                $url = $this->generateUrl($route,array('id' => $entity->getId()));
+                $url = $this->generateUrl($route, array('id' => $entity->getId()));
 
                 return $this->redirect($url);
             }
@@ -199,79 +161,25 @@ abstract class CRUDController extends AbstractController
     {
         $om = $this->getObjectManager();
         $entity = $this->getEntity($id);
-        $securityContext = $this->getSecurityContext();
-        if (!($securityContext->isGranted('ROLE_ADMIN')||$securityContext->isGranted('DELETE', $entity))) {
-            throw new AccessDeniedException();
-        }
         $request = $this->getRequest();
         if ($request->getMethod() == 'POST') {
-            $message = ucfirst($this->getEntityName()) . ' ' . $entity . ' was permanently deleted.';
             $om->remove($entity);
             $om->flush();
+            $message = ucfirst($this->getEntityName()) . ' ' . $entity . ' was permanently deleted.';
             $this->addSessionFlash('success', $message);
             $route = str_replace("_delete", "_list", $request->attributes->get('_route'));
             try {
                 $url = $this->generateUrl($route);
+                
                 return $this->redirect($url);
+                
             } catch (RouteNotFoundException $e) {
+                
                 return $this->redirect('default');
             }
         }
 
         return array('entity' => $entity);
-    }
-
-    /**
-     * Edit permissions
-     *
-     * @Route("/permissions/{id}")
-     * @Template()
-     *
-     * @param  mixed                                     $id
-     * @return Symfony\Component\HttpFoundation\Response
-     */
-    public function permissionsAction($id)
-    {
-        $om = $this->getObjectManager();
-        $entity = $this->getEntity($id);
-        $acl_array = $om->getACL($entity);
-        $securityContext = $this->getSecurityContext();
-        if (!($securityContext->isGranted('ROLE_ADMIN')||$securityContext->isGranted('MASTER', $entity))) {
-            throw new AccessDeniedException();
-        }
-
-        $data = array(
-            'user_acl' => array(),
-            'role_acl' => array()
-        );
-                
-        foreach($acl_array as $acl_entry) {
-            $identity = $acl_entry['identity'];
-            if ($identity instanceof UserInterface) {
-                $data['user_acl'][] = $acl_entry;
-            } else if (is_string($identity)) {
-                $data['role_acl'][] = $acl_entry;
-            }
-        }
-        
-        $form = $this->createForm(new AclType(), $data);
-        $request = $this->getRequest();
-        if ($request->getMethod() == 'POST') {
-            $form->bind($request);
-            if ($form->isValid()) {
-                $data = $form->getData();
-                $acl_array = array_merge($data['user_acl'], $data['role_acl']);
-                $om->updateACL($entity, $acl_array);
-                $message = 'Changes to ' . $this->getEntityName() . ' ' . $entity . ' permissions were saved.';
-                $this->addSessionFlash('success', $message);
-                $route = str_replace("_permissions", "_show", $request->attributes->get('_route'));
-                $url = $this->generateUrl($route, array('id' => $entity->getId()));
-
-                return $this->redirect($url);
-            }
-        }
-
-        return array('form' => $form->createView(), 'entity' => $entity);
     }
     
     /**
@@ -349,7 +257,7 @@ abstract class CRUDController extends AbstractController
      */
     protected function getEntityClass()
     {
-        return $this->entityClass;
+        return self::ENTITY_CLASS;
     }
 
     /**
@@ -359,7 +267,7 @@ abstract class CRUDController extends AbstractController
      */
     protected function getEntityName()
     {
-        $names = explode('|',$this->entityName);
+        $names = explode('|', self::ENTITY_NAME);
 
         return $names[0];
     }
@@ -371,13 +279,13 @@ abstract class CRUDController extends AbstractController
      */
     protected function getEntityPluralName()
     {
-        $names = explode('|',$this->entityName);
+        $names = explode('|', self::ENTITY_NAME);
 
         return $names[1];
     }
 
     /**
-     * Check if entity is controlled by this controller
+     * Check if this is a valid controller for specified entity
      *
      * @param  object  $entity
      * @return boolean
