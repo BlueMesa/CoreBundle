@@ -257,7 +257,7 @@ abstract class CRUDController extends AbstractController
      */
     protected function getEntityClass()
     {
-        return self::ENTITY_CLASS;
+        return static::ENTITY_CLASS;
     }
 
     /**
@@ -267,7 +267,7 @@ abstract class CRUDController extends AbstractController
      */
     protected function getEntityName()
     {
-        $names = explode('|', self::ENTITY_NAME);
+        $names = explode('|', static::ENTITY_NAME);
 
         return $names[0];
     }
@@ -279,7 +279,7 @@ abstract class CRUDController extends AbstractController
      */
     protected function getEntityPluralName()
     {
-        $names = explode('|', self::ENTITY_NAME);
+        $names = explode('|', static::ENTITY_NAME);
 
         return $names[1];
     }

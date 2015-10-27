@@ -56,7 +56,7 @@ class ObjectManager extends ObjectManagerDecorator
      */
     public function getManagedClass()
     {
-        return self::MANAGED_CLASS;
+        return static::MANAGED_CLASS;
     }
     
     /**
