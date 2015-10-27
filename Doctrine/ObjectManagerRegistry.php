@@ -57,7 +57,6 @@ class ObjectManagerRegistry
     public function getManagerForClass($object = null)
     {
         if (null == $object) {
-            
             return $this->doctrineManagerRegistry->getManager();
         }
         
