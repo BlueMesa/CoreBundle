@@ -36,16 +36,15 @@ class ObjectManager extends ObjectManagerDecorator
      */
     const MANAGED_CLASS = 'Bluemesa\Bundle\CoreBundle\Entity\Entity';
     
+    
     /**
-     * Construct ObjectManager
+     * Set managerRegistry
      *
-     * @DI\InjectParams({
-     *     "managerRegistry" = @DI\Inject("doctrine")
-     * })
+     * @DI\InjectParams({"managerRegistry" = @DI\Inject("doctrine")})
      * 
      * @param Doctrine\Common\Persistence\ManagerRegistry  $managerRegistry
      */
-    public function __construct(ManagerRegistry $managerRegistry)
+    public function setManagerRegistry(ManagerRegistry $managerRegistry)
     {
         $this->wrapped = $managerRegistry->getManager();
     }
