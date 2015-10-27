@@ -19,6 +19,7 @@
             "Bluemesa\\Bundle\\CoreBundle\\": ""
         }
     },
+    "target-dir": "Bluemesa/Bundle/CoreBundle",
     "require": {
         "php": ">=5.6.0",
         "symfony/framework-bundle": "~2.7"
