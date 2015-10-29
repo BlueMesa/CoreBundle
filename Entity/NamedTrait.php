@@ -17,14 +17,11 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 
 /**
- * NamedEntity class
- *
- * @ORM\MappedSuperclass
- * @Serializer\ExclusionPolicy("all")
+ * Named trait
  *
  * @author Radoslaw Kamil Ejsmont <radoslaw@ejsmont.net>
  */
-class NamedEntity extends Entity implements NamedEntityInterface
+trait NamedTrait
 {
     /**
      * @ORM\Column(type="string", length=255)
@@ -57,7 +54,9 @@ class NamedEntity extends Entity implements NamedEntityInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Get name
+     *
+     * @return string
      */
     public function getName()
     {

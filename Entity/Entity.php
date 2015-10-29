@@ -12,19 +12,16 @@
 namespace Bluemesa\Bundle\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as Serializer;
 
 /**
  * Entity class
  *
  * @ORM\MappedSuperclass
- * @Serializer\ExclusionPolicy("all")
  *
  * @author Radoslaw Kamil Ejsmont <radoslaw@ejsmont.net>
  */
 class Entity
 {
-
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")

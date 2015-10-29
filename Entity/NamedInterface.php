@@ -16,7 +16,7 @@ namespace Bluemesa\Bundle\CoreBundle\Entity;
  *
  * @author Radoslaw Kamil Ejsmont <radoslaw@ejsmont.net>
  */
-interface NamedEntityInterface
+interface NamedInterface
 {
     /**
      * Get name
