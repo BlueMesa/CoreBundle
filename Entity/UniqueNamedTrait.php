@@ -21,12 +21,12 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @author Radoslaw Kamil Ejsmont <radoslaw@ejsmont.net>
  */
-trait NamedTrait
+trait UniqueNamedTrait
 {
     use BaseNamedTrait;
     
     /**
-     * @ORM\Column(type="string", length=255, nullable=false)
+     * @ORM\Column(type="string", length=255, unique=true, nullable=false)
      * @Serializer\Expose
      * @Assert\NotBlank(message = "Name must be specified")
      *
