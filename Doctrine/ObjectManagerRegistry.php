@@ -64,17 +64,13 @@ class ObjectManagerRegistry
         $managers = array();
                 
         foreach ($this->managers as $manager) {
-            $managed_class = $manager->getManagedClass();
-            $priority = $this->getAncestorDepth($class, $managed_class);
-            
-            if (false !== $priority) {
-                $managers[$priority] = $manager;
-            }
+            $priority = $manager->manages($class);
+            $managers[$priority] = $manager;
         }
         
         if (count($managers)) {
             
-            return $managers[min(array_keys($managers))];
+            return $managers[max(array_keys($managers))];
         }
         
         return $this->doctrineManagerRegistry->getManagerForClass($class);
@@ -88,31 +84,5 @@ class ObjectManagerRegistry
     public function addManager(ObjectManager $manager)
     {
         $this->managers[] = $manager;
-    }
-    
-    /**
-     * Get number of classes between $class and $ancestor
-     * 
-     * @param string $class
-     * @param string $ancestor
-     * @return int|false
-     */
-    private function getAncestorDepth($class, $ancestor)
-    {
-        if ($class == $ancestor) {
-            
-            return 0;
-            
-        } else {
-            if ((false === ($parent = get_parent_class($class)))||
-                (false === ($depth = $this->getAncestorDepth($parent, $ancestor)))) {
-                
-                return false;
-                
-            } else {
-                
-                return 1 + $depth;
-            }
-        }
     }
 }

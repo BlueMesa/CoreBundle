@@ -32,9 +32,9 @@ use Bluemesa\Bundle\CoreBundle\Filter\EntityFilterInterface;
 class ObjectManager extends ObjectManagerDecorator
 {
     /**
-     * Class managed by this ObjectManager
+     * Interface that classes managed by this ObjectManager must implement
      */
-    const MANAGED_CLASS = 'Bluemesa\Bundle\CoreBundle\Entity\Entity';
+    const MANAGED_INTERFACE = 'Bluemesa\Bundle\CoreBundle\Entity\EntityInterface';
     
     
     /**
@@ -50,13 +50,26 @@ class ObjectManager extends ObjectManagerDecorator
     }
     
     /**
-     * Get the class this Manager is used for
+     * Check if this is a good manager for the $class
      * 
-     * @return string
+     * @param  $class
+     * @return integer
      */
-    public function getManagedClass()
+    public function manages($class)
     {
-        return static::MANAGED_CLASS;
+        if (get_parent_class() !== false) {
+            $score = parent::manages($class);
+        } else {
+            $score = 0;
+        }
+        if ((in_array(self::MANAGED_INTERFACE, class_implements($class)))&&($priority)) {
+            
+            return $score + 1;
+            
+        } else {
+            
+            return 0;
+        }
     }
     
     /**

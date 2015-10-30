@@ -20,7 +20,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @author Radoslaw Kamil Ejsmont <radoslaw@ejsmont.net>
  */
-class Entity
+class Entity implements EntityInterface
 {
     /**
      * @ORM\Id
@@ -33,9 +33,7 @@ class Entity
     protected $id;
 
     /**
-     * Get id
-     *
-     * @return integer
+     * {@inheritdoc}
      */
     public function getId()
     {
