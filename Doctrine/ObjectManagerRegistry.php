@@ -70,11 +70,8 @@ class ObjectManagerRegistry
         
         if (count($managers)) {
             $key = max(array_keys($managers));
-            $manager = $managers[$key];
             
-            print get_class($manager) . " manages " . $class . "\n";
-            
-            return $manager;
+            return $managers[$key];
         }
         
         return $this->doctrineManagerRegistry->getManagerForClass($class);
