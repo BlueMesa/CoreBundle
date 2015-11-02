@@ -69,8 +69,12 @@ class ObjectManagerRegistry
         }
         
         if (count($managers)) {
+            print "Getting manager for " . $class ;
+            $thekey = max(array_keys($managers));
+            $manager = $managers[$thekey];
+            print ": " . get_class($manager) . " " . $thekey . "\n";
             
-            return $managers[max(array_keys($managers))];
+            return $manager;
         }
         
         return $this->doctrineManagerRegistry->getManagerForClass($class);

@@ -53,7 +53,7 @@ class ObjectManager extends ObjectManagerDecorator
      * Check if this is a good manager for the $class
      * 
      * @param  $class
-     * @return integer
+     * @return integer|false
      */
     public function manages($class)
     {
@@ -64,13 +64,13 @@ class ObjectManager extends ObjectManagerDecorator
         } else {
             $score = 0;
         }
-        if ((in_array(self::MANAGED_INTERFACE, class_implements($class)))&&($score)) {
+        if ((in_array(self::MANAGED_INTERFACE, class_implements($class)))&&($score !== false)) {
             
             return $score + 1;
             
         } else {
             
-            return 0;
+            return false;
         }
     }
     
