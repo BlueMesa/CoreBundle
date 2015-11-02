@@ -11,15 +11,10 @@
 
 namespace Bluemesa\Bundle\CoreBundle\Repository;
 
-use JMS\DiExtraBundle\Annotation as DI;
 
-use Bluemesa\Bundle\CoreBundle\Doctrine\ObjectManager;
-use VIB\SecurityBundle\Bridge\Doctrine\AclFilter;
-
+use Bluemesa\Bundle\CoreBundle\DependencyInjection\ObjectManagerAwareTrait;
 use Bluemesa\Bundle\CoreBundle\Filter\ListFilterInterface;
 use Bluemesa\Bundle\CoreBundle\Filter\EntityFilterInterface;
-use Bluemesa\Bundle\CoreBundle\Filter\SecureFilterInterface;
-
 use Doctrine\ORM\EntityRepository as BaseEntityRepository;
 
 /**
@@ -29,60 +24,7 @@ use Doctrine\ORM\EntityRepository as BaseEntityRepository;
  */
 class EntityRepository extends BaseEntityRepository
 {
-    /**
-     * @var VIB\SecurityBundle\Bridge\Doctrine\AclFilter $aclFilter
-     */
-    protected $aclFilter;
-
-    /**
-     * @var Bluemesa\Bundle\CoreBundle\Doctrine\ObjectManager $objectManager
-     */
-    protected $objectManager;
-    
-    
-    /**
-     * Set the ACL filter service
-     *
-     * @DI\InjectParams({ "aclFilter" = @DI\Inject("vib.security.filter.acl") })
-     * 
-     * @param VIB\SecurityBundle\Bridge\Doctrine\AclFilter $aclFilter
-     */
-    public function setAclFilter(AclFilter $aclFilter)
-    {
-        $this->aclFilter = $aclFilter;
-    }
-    
-    /**
-     * Return the ACL filter service
-     * 
-     * @return VIB\SecurityBundle\Bridge\Doctrine\AclFilter
-     */
-    protected function getAclFilter()
-    {
-        return $this->aclFilter;
-    }
-    
-    /**
-     * Set the Object manager service
-     * 
-     * @DI\InjectParams({ "objectManager" = @DI\Inject("bluemesa.core.doctrine.manager") })
-     * 
-     * @param Bluemesa\Bundle\CoreBundle\Doctrine\ObjectManager
-     */
-    public function setObjectManager(ObjectManager $objectManager)
-    {
-        $this->objectManager = $objectManager;
-    }
-    
-    /**
-     * Get the Object manager service
-     * 
-     * @return type Bluemesa\Bundle\CoreBundle\Doctrine\ObjectManager
-     */
-    protected function getObjectManager()
-    {
-        return $this->objectManager;
-    }
+    use ObjectManagerAwareTrait;
     
     /**
      *
@@ -102,16 +44,8 @@ class EntityRepository extends BaseEntityRepository
     public function getListQuery(ListFilterInterface $filter = null)
     {
         $qb = $this->getListQueryBuilder($filter);
-        
-        if ($filter instanceof SecureFilterInterface) {
-            $permissions = $filter->getPermissions();
-            $user = $filter->getUser();
-        } else {
-            $permissions = array();
-            $user = null;
-        }
 
-        return (false === $permissions) ? $qb->getQuery() : $this->getAclFilter()->apply($qb, $permissions, $user);
+        return $qb->getQuery();
     }
 
     /**
@@ -143,15 +77,7 @@ class EntityRepository extends BaseEntityRepository
     {
         $qb = $this->getCountQueryBuilder($filter);
         
-        if ($filter instanceof SecureFilterInterface) {
-            $permissions = $filter->getPermissions();
-            $user = $filter->getUser();
-        } else {
-            $permissions = array();
-            $user = null;
-        }
-        
-        return (false === $permissions) ? $qb->getQuery() : $this->getAclFilter()->apply($qb, $permissions, $user);
+        return $qb->getQuery();
     }
 
     /**
