@@ -57,21 +57,21 @@ class ObjectManager extends ObjectManagerDecorator
      */
     public function manages($class)
     {
-        if (($parent = get_parent_class() !== false)&&
-            ($parent != 'Doctrine\Common\Persistence\ObjectManagerDecorator')) {
-            
-            $score = parent::manages($class);
-        } else {
-            $score = 0;
+        $managers = array_merge(array(get_class($this)), class_parents($this));
+        $score = 0;
+                
+        foreach ($managers as $manager) {
+            if ($manager != 'Doctrine\Common\Persistence\ObjectManagerDecorator') {
+                if (in_array($manager::MANAGED_INTERFACE, class_implements($class))) {
+                    $score += 1;
+                } else {
+                    
+                    return false;
+                }
+            }
         }
-        if ((in_array(self::MANAGED_INTERFACE, class_implements($class)))&&($score !== false)) {
-            
-            return $score + 1;
-            
-        } else {
-            
-            return false;
-        }
+        
+        return $score;
     }
     
     /**
