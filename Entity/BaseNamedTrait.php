@@ -20,16 +20,6 @@ namespace Bluemesa\Bundle\CoreBundle\Entity;
 trait BaseNamedTrait
 {
     /**
-     * Return string representation of StorageUnit
-     *
-     * @return string
-     */
-    public function __toString()
-    {
-        return (string) $this->getName();
-    }
-    
-    /**
      * Set name
      *
      * @param string $name
