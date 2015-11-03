@@ -11,26 +11,23 @@
 
 namespace Bluemesa\Bundle\CoreBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as Serializer;
-use Symfony\Component\Validator\Constraints as Assert;
-
 
 /**
- * Named trait
+ * ExtendedBaseNamedTrait
  *
  * @author Radoslaw Kamil Ejsmont <radoslaw@ejsmont.net>
  */
-trait UniqueNamedTrait
+trait ExtendedBaseNamedTrait
 {
-    use ExtendedBaseNamedTrait;
+    use BaseNamedTrait;
     
     /**
-     * @ORM\Column(type="string", length=255, unique=true, nullable=false)
-     * @Serializer\Expose
-     * @Assert\NotBlank(message = "Name must be specified")
+     * Return string representation of StorageUnit
      *
-     * @var string
+     * @return string
      */
-    protected $name;
+    public function __toString()
+    {
+        return (string) $this->getName();
+    }
 }

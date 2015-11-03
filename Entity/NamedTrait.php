@@ -33,4 +33,15 @@ trait NamedTrait
      * @var string
      */
     protected $name;
+    
+    
+    /**
+     * Return string representation of StorageUnit
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return (string) $this->getName();
+    }
 }
