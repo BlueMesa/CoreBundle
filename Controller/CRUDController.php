@@ -223,7 +223,7 @@ abstract class CRUDController extends AbstractController
      *
      * @return Bluemesa\Bundle\CoreBundle\Filter\ListFilterInterface
      */
-    protected function getFilter()
+    protected function getFilter(Request $request)
     {
         return null;
     }
