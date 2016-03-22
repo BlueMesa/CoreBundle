@@ -209,11 +209,11 @@ abstract class CRUDController extends AbstractController
     }
 
     /**
-     *
+     * @param  Symfony\Component\HttpFoundation\Request                   $request
      * @param  Bluemesa\Bundle\CoreBundle\Filter\RedirectFilterInterface  $filter
      * @return Symfony\Component\HttpFoundation\Response
      */
-    protected function getFilterRedirect(RedirectFilterInterface $filter)
+    protected function getFilterRedirect(Request $request, RedirectFilterInterface $filter)
     {
         return $this->createNotFoundException();
     }
