@@ -56,9 +56,9 @@ class AbstractController extends Controller
      *
      * @return integer
      */
-    protected function getCurrentPage()
+    protected function getCurrentPage(Request $request)
     {
-        return $this->getRequest()->query->get('page', 1);
+        return $request->query->get('page', 1);
     }
     
     /**

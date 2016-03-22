@@ -15,6 +15,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use Doctrine\ORM\NoResultException;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
 
@@ -49,7 +50,7 @@ abstract class CRUDController extends AbstractController
      *
      * @return Symfony\Component\HttpFoundation\Response
      */
-    public function listAction()
+    public function listAction(Request $request)
     {
         $filter = $this->getFilter();       
         if (($filter instanceof RedirectFilterInterface)&&($filter->needRedirect())) {
@@ -58,7 +59,7 @@ abstract class CRUDController extends AbstractController
         }
         
         $paginator  = $this->getPaginator();
-        $page = $this->getCurrentPage();
+        $page = $this->getCurrentPage($request);
         $repository = $this->getObjectManager()->getRepository($this->getEntityClass());
         $count = $repository->getListCount($filter);
         $query = $repository->getListQuery($filter)->setHint('knp_paginator.count', $count);
@@ -92,13 +93,12 @@ abstract class CRUDController extends AbstractController
      *
      * @return Symfony\Component\HttpFoundation\Response
      */
-    public function createAction()
+    public function createAction(Request $request)
     {
         $om = $this->getObjectManager();
         $class = $this->getEntityClass();
         $entity = new $class();
         $form = $this->createForm($this->getCreateForm(), $entity);
-        $request = $this->getRequest();
         if ($request->getMethod() == 'POST') {
             $form->bind($request);
             if ($form->isValid()) {
@@ -125,12 +125,11 @@ abstract class CRUDController extends AbstractController
      * @param  mixed                                     $id
      * @return Symfony\Component\HttpFoundation\Response
      */
-    public function editAction($id)
+    public function editAction(Request $request, $id)
     {
         $om = $this->getObjectManager();
         $entity = $this->getEntity($id);
         $form = $this->createForm($this->getEditForm(), $entity);
-        $request = $this->getRequest();
         if ($request->getMethod() == 'POST') {
             $form->bind($request);
             if ($form->isValid()) {
@@ -157,11 +156,10 @@ abstract class CRUDController extends AbstractController
      * @param  mixed                                     $id
      * @return Symfony\Component\HttpFoundation\Response
      */
-    public function deleteAction($id)
+    public function deleteAction(Request $request, $id)
     {
         $om = $this->getObjectManager();
         $entity = $this->getEntity($id);
-        $request = $this->getRequest();
         if ($request->getMethod() == 'POST') {
             $om->remove($entity);
             $om->flush();
