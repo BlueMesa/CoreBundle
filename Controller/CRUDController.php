@@ -52,10 +52,10 @@ abstract class CRUDController extends AbstractController
      */
     public function listAction(Request $request)
     {
-        $filter = $this->getFilter();       
+        $filter = $this->getFilter($request);       
         if (($filter instanceof RedirectFilterInterface)&&($filter->needRedirect())) {
             
-            return $this->getFilterRedirect($filter);
+            return $this->getFilterRedirect($request, $filter);
         }
         
         $paginator  = $this->getPaginator();
