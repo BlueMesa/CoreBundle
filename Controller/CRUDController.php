@@ -78,7 +78,7 @@ abstract class CRUDController extends AbstractController
      *
      * @return Symfony\Component\HttpFoundation\Response
      */
-    public function showAction($id)
+    public function showAction(Request $request, $id)
     {
         $entity = $this->getEntity($id);
 
