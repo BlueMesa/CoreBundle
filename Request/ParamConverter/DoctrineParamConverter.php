@@ -29,7 +29,7 @@ use JMS\DiExtraBundle\Annotation as DI;
 class DoctrineParamConverter extends SensioDoctrineParamConverter
 {
     /**
-     * @DI\InjectParams({"managerRegistry" = @DI\Inject("doctrine")})
+     * @DI\InjectParams({"registry" = @DI\Inject("doctrine")})
      * 
      * @param \Doctrine\Common\Persistence\ManagerRegistry $registry
      */
@@ -41,8 +41,8 @@ class DoctrineParamConverter extends SensioDoctrineParamConverter
     /**
      * Apply the converter
      *
-     * @param  \Symfony\Component\HttpFoundation\Request                        $request
-     * @param  \Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter $configuration
+     * @param  \Symfony\Component\HttpFoundation\Request                         $request
+     * @param  \Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter  $configuration
      * @return boolean
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      */
