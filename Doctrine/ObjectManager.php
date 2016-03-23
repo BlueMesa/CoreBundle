@@ -42,7 +42,7 @@ class ObjectManager extends ObjectManagerDecorator
      *
      * @DI\InjectParams({"managerRegistry" = @DI\Inject("doctrine")})
      * 
-     * @param Doctrine\Common\Persistence\ManagerRegistry  $managerRegistry
+     * @param \Doctrine\Common\Persistence\ManagerRegistry  $managerRegistry
      */
     public function setManagerRegistry(ManagerRegistry $managerRegistry)
     {
@@ -52,8 +52,8 @@ class ObjectManager extends ObjectManagerDecorator
     /**
      * Check if this is a good manager for the $class
      * 
-     * @param  $class
-     * @return integer|false
+     * @param  string           $class
+     * @return integer | false
      */
     public function manages($class)
     {
@@ -93,11 +93,10 @@ class ObjectManager extends ObjectManagerDecorator
      *
      * This is just a convenient shortcut for getRepository($className)->find($id).
      *
-     * @param string $className The class name of the object to find.
-     * @param mixed  $id        The identity of the object to find.
-     * @param Bluemesa\Bundle\CoreBundle\Filter\EntityFilterInterface $filter
-     * 
-     * @return object The found object.
+     * @param string                                                    $className The class name of the object to find.
+     * @param mixed                                                     $id        The identity of the object to find.
+     * @param \Bluemesa\Bundle\CoreBundle\Filter\EntityFilterInterface  $filter
+     * @return object                                                              The found object.
      */
     public function find($className, $id, $filter = null)
     {
@@ -108,7 +107,8 @@ class ObjectManager extends ObjectManagerDecorator
                     . ((($type = gettype($filter)) == 'object') ? get_class($filter) : $type)
                     . ' given');
         }
-        
+
+        /** @var EntityRepository $repository */
         $repository = $this->getRepository($className);
         
         return $repository->getEntity($id, $filter);
@@ -117,13 +117,14 @@ class ObjectManager extends ObjectManagerDecorator
     /**
      * Finds all entities of the specified type.
      *
-     * @param string $className The class name of the objects to find.
-     * @param Bluemesa\Bundle\CoreBundle\Filter\ListFilterInterface $filter
+     * @param string                                                  $className The class name of the objects to find.
+     * @param \Bluemesa\Bundle\CoreBundle\Filter\ListFilterInterface  $filter
      * 
-     * @return Doctrine\Common\Collections\Collection The entities.
+     * @return \Doctrine\Common\Collections\Collection                           The entities.
      */
     public function findAll($className, ListFilterInterface $filter = null)
     {
+        /** @var EntityRepository $repository */
         $repository = $this->getRepository($className);
 
         return $repository->getList($filter);
@@ -132,13 +133,14 @@ class ObjectManager extends ObjectManagerDecorator
     /**
      * Counts all entities of the specified type.
      * 
-     * @param string $className The class name of the objects to find.
-     * @param Bluemesa\Bundle\CoreBundle\Filter\ListFilterInterface $filter
+     * @param string                                                  $className The class name of the objects to find.
+     * @param \Bluemesa\Bundle\CoreBundle\Filter\ListFilterInterface  $filter
      * 
      * @return integer Number of entities.
      */
     public function countAll($className, ListFilterInterface $filter = null)
     {
+        /** @var EntityRepository $repository */
         $repository = $this->getRepository($className);
 
         return $repository->getListCount($filter);

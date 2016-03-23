@@ -11,6 +11,8 @@
 
 namespace Bluemesa\Bundle\CoreBundle\Controller;
 
+use Bluemesa\Bundle\CoreBundle\Entity\Entity;
+use Bluemesa\Bundle\CoreBundle\Repository\EntityRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
@@ -48,7 +50,8 @@ abstract class CRUDController extends AbstractController
      * @Route("/list/{filter}")
      * @Template()
      *
-     * @return Symfony\Component\HttpFoundation\Response
+     * @param  \Symfony\Component\HttpFoundation\Request   $request
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function listAction(Request $request)
     {
@@ -60,6 +63,7 @@ abstract class CRUDController extends AbstractController
         
         $paginator  = $this->getPaginator();
         $page = $this->getCurrentPage($request);
+        /** @var EntityRepository $repository */
         $repository = $this->getObjectManager()->getRepository($this->getEntityClass());
         $count = $repository->getListCount($filter);
         $query = $repository->getListQuery($filter)->setHint('knp_paginator.count', $count);
@@ -74,9 +78,9 @@ abstract class CRUDController extends AbstractController
      * @Route("/show/{id}")
      * @Template()
      *
-     * @param mixed $id
-     *
-     * @return Symfony\Component\HttpFoundation\Response
+     * @param  \Symfony\Component\HttpFoundation\Request           $request
+     * @param  mixed                                               $id
+     * @return \Symfony\Component\HttpFoundation\Response | array
      */
     public function showAction(Request $request, $id)
     {
@@ -91,26 +95,26 @@ abstract class CRUDController extends AbstractController
      * @Route("/new")
      * @Template()
      *
-     * @return Symfony\Component\HttpFoundation\Response
+     * @param  \Symfony\Component\HttpFoundation\Request   $request
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function createAction(Request $request)
     {
         $om = $this->getObjectManager();
         $class = $this->getEntityClass();
+        /** @var Entity $entity */
         $entity = new $class();
         $form = $this->createForm($this->getCreateForm(), $entity);
-        if ($request->getMethod() == 'POST') {
-            $form->bind($request);
-            if ($form->isValid()) {
-                $om->persist($entity);
-                $om->flush();
-                $message = ucfirst($this->getEntityName()) . ' ' . $entity . ' was created.';
-                $this->addSessionFlash('success', $message);
-                $route = str_replace("_create", "_show", $request->attributes->get('_route'));
-                $url = $this->generateUrl($route, array('id' => $entity->getId()));
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+            $om->persist($entity);
+            $om->flush();
+            $message = ucfirst($this->getEntityName()) . ' ' . $entity . ' was created.';
+            $this->addSessionFlash('success', $message);
+            $route = str_replace("_create", "_show", $request->attributes->get('_route'));
+            $url = $this->generateUrl($route, array('id' => $entity->getId()));
 
-                return $this->redirect($url);
-            }
+            return $this->redirect($url);
         }
 
         return array('form' => $form->createView());
@@ -122,26 +126,25 @@ abstract class CRUDController extends AbstractController
      * @Route("/edit/{id}")
      * @Template()
      *
-     * @param  mixed                                     $id
-     * @return Symfony\Component\HttpFoundation\Response
+     * @param  \Symfony\Component\HttpFoundation\Request   $request
+     * @param  mixed                                       $id
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function editAction(Request $request, $id)
     {
         $om = $this->getObjectManager();
         $entity = $this->getEntity($id);
         $form = $this->createForm($this->getEditForm(), $entity);
-        if ($request->getMethod() == 'POST') {
-            $form->bind($request);
-            if ($form->isValid()) {
-                $om->persist($entity);
-                $om->flush();
-                $message = 'Changes to ' . $this->getEntityName() . ' ' . $entity . ' were saved.';
-                $this->addSessionFlash('success', $message);
-                $route = str_replace("_edit", "_show", $request->attributes->get('_route'));
-                $url = $this->generateUrl($route, array('id' => $entity->getId()));
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+            $om->persist($entity);
+            $om->flush();
+            $message = 'Changes to ' . $this->getEntityName() . ' ' . $entity . ' were saved.';
+            $this->addSessionFlash('success', $message);
+            $route = str_replace("_edit", "_show", $request->attributes->get('_route'));
+            $url = $this->generateUrl($route, array('id' => $entity->getId()));
 
-                return $this->redirect($url);
-            }
+            return $this->redirect($url);
         }
 
         return array('form' => $form->createView());
@@ -153,8 +156,9 @@ abstract class CRUDController extends AbstractController
      * @Route("/delete/{id}")
      * @Template()
      *
-     * @param  mixed                                     $id
-     * @return Symfony\Component\HttpFoundation\Response
+     * @param  \Symfony\Component\HttpFoundation\Request   $request
+     * @param  mixed                                       $id
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function deleteAction(Request $request, $id)
     {
@@ -183,9 +187,9 @@ abstract class CRUDController extends AbstractController
     /**
      * Get entity
      *
-     * @param  mixed                                                         $id
-     * @throws Symfony\Component\HttpKernel\Exception\NotFoundHttpException
-     * @return Bluemesa\Bundle\CoreBundle\Entity\Entity
+     * @param  mixed                                                          $id
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     * @return \Bluemesa\Bundle\CoreBundle\Entity\Entity
      */
     protected function getEntity($id)
     {
@@ -204,14 +208,12 @@ abstract class CRUDController extends AbstractController
         } catch (NoResultException $e) {
             throw new NotFoundHttpException();
         }
-
-        return null;
     }
 
     /**
-     * @param  Symfony\Component\HttpFoundation\Request                   $request
-     * @param  Bluemesa\Bundle\CoreBundle\Filter\RedirectFilterInterface  $filter
-     * @return Symfony\Component\HttpFoundation\Response
+     * @param  \Symfony\Component\HttpFoundation\Request                   $request
+     * @param  \Bluemesa\Bundle\CoreBundle\Filter\RedirectFilterInterface  $filter
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     protected function getFilterRedirect(Request $request, RedirectFilterInterface $filter)
     {
@@ -221,7 +223,8 @@ abstract class CRUDController extends AbstractController
     /**
      * Get filter
      *
-     * @return Bluemesa\Bundle\CoreBundle\Filter\ListFilterInterface
+     * @param  \Symfony\Component\HttpFoundation\Request               $request
+     * @return \Bluemesa\Bundle\CoreBundle\Filter\ListFilterInterface
      */
     protected function getFilter(Request $request)
     {
@@ -231,7 +234,7 @@ abstract class CRUDController extends AbstractController
     /**
      * Get create form
      *
-     * @return Symfony\Component\Form\AbstractType
+     * @return \Symfony\Component\Form\AbstractType
      */
     protected function getCreateForm()
     {
@@ -241,7 +244,7 @@ abstract class CRUDController extends AbstractController
     /**
      * Get edit form
      *
-     * @return Symfony\Component\Form\AbstractType
+     * @return \Symfony\Component\Form\AbstractType
      */
     protected function getEditForm()
     {

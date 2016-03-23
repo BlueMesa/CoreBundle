@@ -56,6 +56,7 @@ class AbstractController extends Controller
     /**
      * Get current page
      *
+     * @param  \Symfony\Component\HttpFoundation\Request  $request
      * @return integer
      */
     protected function getCurrentPage(Request $request)

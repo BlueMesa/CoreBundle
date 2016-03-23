@@ -23,7 +23,7 @@ use Bluemesa\Bundle\CoreBundle\Doctrine\ObjectManager;
 trait ObjectManagerAwareTrait {
     
     /**
-     * @var Bluemesa\Bundle\CoreBundle\Doctrine\ObjectManager $objectManager
+     * @var \Bluemesa\Bundle\CoreBundle\Doctrine\ObjectManager $objectManager
      */
     protected $objectManager;
     
@@ -33,7 +33,7 @@ trait ObjectManagerAwareTrait {
      * 
      * @DI\InjectParams({ "objectManager" = @DI\Inject("bluemesa.core.doctrine.manager") })
      * 
-     * @param Bluemesa\Bundle\CoreBundle\Doctrine\ObjectManager
+     * @param \Bluemesa\Bundle\CoreBundle\Doctrine\ObjectManager
      */
     public function setObjectManager(ObjectManager $objectManager)
     {
@@ -43,7 +43,7 @@ trait ObjectManagerAwareTrait {
     /**
      * Get the Object manager service
      * 
-     * @return type Bluemesa\Bundle\CoreBundle\Doctrine\ObjectManager
+     * @return \Bluemesa\Bundle\CoreBundle\Doctrine\ObjectManager
      */
     protected function getObjectManager()
     {

@@ -16,20 +16,22 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use JMS\DiExtraBundle\Annotation as DI;
+
 /**
  * DoctrineParamConverter
  *
  * @author Radoslaw Kamil Ejsmont <radoslaw@ejsmont.net>
  * 
- * @Service("bluemesa.converter.doctrine")
- * @Tag("request.param_converter", attributes = {"priority"=2, "converter"="bluemesa.core.doctrine"})
+ * @DI\Service("bluemesa.converter.doctrine")
+ * @DI\Tag("request.param_converter", attributes = {"priority"=2, "converter"="bluemesa.core.doctrine"})
  */
 class DoctrineParamConverter extends SensioDoctrineParamConverter
 {
     /**
      * @DI\InjectParams({"managerRegistry" = @DI\Inject("doctrine")})
      * 
-     * @param Doctrine\Common\Persistence\ManagerRegistry $registry
+     * @param \Doctrine\Common\Persistence\ManagerRegistry $registry
      */
     public function __construct(ManagerRegistry $registry = null)
     {
@@ -39,10 +41,10 @@ class DoctrineParamConverter extends SensioDoctrineParamConverter
     /**
      * Apply the converter
      *
-     * @param  Symfony\Component\HttpFoundation\Request                        $request
-     * @param  Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter $configuration
+     * @param  \Symfony\Component\HttpFoundation\Request                        $request
+     * @param  \Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter $configuration
      * @return boolean
-     * @throws Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      */
     public function apply(Request $request, ParamConverter $configuration)
     {
@@ -61,14 +63,12 @@ class DoctrineParamConverter extends SensioDoctrineParamConverter
             
             throw new NotFoundHttpException(sprintf($options['error_message'],$id));
         }
-
-        return true;
     }
 
     /**
      * Get options
      *
-     * @param  Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter $configuration
+     * @param  \Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter $configuration
      * @return array
      */
     protected function getOptions(ParamConverter $configuration)
