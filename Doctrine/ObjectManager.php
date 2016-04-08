@@ -11,14 +11,13 @@
 
 namespace Bluemesa\Bundle\CoreBundle\Doctrine;
 
-use JMS\DiExtraBundle\Annotation as DI;
-
-use Doctrine\Common\Persistence\ManagerRegistry;
-use Doctrine\Common\Persistence\ObjectManagerDecorator;
-
 use Bluemesa\Bundle\CoreBundle\Repository\EntityRepository;
 use Bluemesa\Bundle\CoreBundle\Filter\ListFilterInterface;
 use Bluemesa\Bundle\CoreBundle\Filter\EntityFilterInterface;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Common\Persistence\ObjectManagerDecorator;
+use JMS\DiExtraBundle\Annotation as DI;
 
 
 /**
@@ -32,7 +31,7 @@ use Bluemesa\Bundle\CoreBundle\Filter\EntityFilterInterface;
 class ObjectManager extends ObjectManagerDecorator
 {
     /**
-     * Interface that classes managed by this ObjectManager must implement
+     * @var string  MANAGED_INTERFACE  Interface that classes managed by this ObjectManager must implement
      */
     const MANAGED_INTERFACE = 'Bluemesa\Bundle\CoreBundle\Entity\EntityInterface';
     
@@ -42,7 +41,7 @@ class ObjectManager extends ObjectManagerDecorator
      *
      * @DI\InjectParams({"managerRegistry" = @DI\Inject("doctrine")})
      * 
-     * @param \Doctrine\Common\Persistence\ManagerRegistry  $managerRegistry
+     * @param ManagerRegistry  $managerRegistry
      */
     public function setManagerRegistry(ManagerRegistry $managerRegistry)
     {
@@ -52,8 +51,8 @@ class ObjectManager extends ObjectManagerDecorator
     /**
      * Check if this is a good manager for the $class
      * 
-     * @param  string           $class
-     * @return integer | false
+     * @param  string         $class
+     * @return integer|false
      */
     public function manages($class)
     {
@@ -93,10 +92,10 @@ class ObjectManager extends ObjectManagerDecorator
      *
      * This is just a convenient shortcut for getRepository($className)->find($id).
      *
-     * @param string                                                    $className The class name of the object to find.
-     * @param mixed                                                     $id        The identity of the object to find.
-     * @param \Bluemesa\Bundle\CoreBundle\Filter\EntityFilterInterface  $filter
-     * @return object                                                              The found object.
+     * @param  string                 $className  The class name of the object to find.
+     * @param  mixed                  $id         The identity of the object to find.
+     * @param  EntityFilterInterface  $filter     Entity filter to apply
+     * @return object                             The found object.
      */
     public function find($className, $id, $filter = null)
     {
@@ -117,10 +116,9 @@ class ObjectManager extends ObjectManagerDecorator
     /**
      * Finds all entities of the specified type.
      *
-     * @param string                                                  $className The class name of the objects to find.
-     * @param \Bluemesa\Bundle\CoreBundle\Filter\ListFilterInterface  $filter
-     * 
-     * @return \Doctrine\Common\Collections\Collection                           The entities.
+     * @param  string               $className  The class name of the objects to find.
+     * @param  ListFilterInterface  $filter     Entity filter to apply
+     * @return Collection                       The entities.
      */
     public function findAll($className, ListFilterInterface $filter = null)
     {
@@ -133,10 +131,9 @@ class ObjectManager extends ObjectManagerDecorator
     /**
      * Counts all entities of the specified type.
      * 
-     * @param string                                                  $className The class name of the objects to find.
-     * @param \Bluemesa\Bundle\CoreBundle\Filter\ListFilterInterface  $filter
-     * 
-     * @return integer Number of entities.
+     * @param  string               $className  The class name of the objects to find.
+     * @param  ListFilterInterface  $filter     Entity filter to apply
+     * @return integer                          Number of entities.
      */
     public function countAll($className, ListFilterInterface $filter = null)
     {

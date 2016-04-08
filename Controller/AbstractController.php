@@ -11,9 +11,13 @@
 
 namespace Bluemesa\Bundle\CoreBundle\Controller;
 
+use Bluemesa\Bundle\CoreBundle\Doctrine\ObjectManager;
+use InvalidArgumentException;
+use Knp\Component\Pager\Paginator;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 /**
  * Base class for controllers
@@ -25,8 +29,8 @@ class AbstractController extends Controller
     /**
      * Get object manager
      *
-     * @param  object|string $object
-     * @return \Bluemesa\Bundle\CoreBundle\Doctrine\ObjectManager
+     * @param  object|string  $object
+     * @return ObjectManager
      */
     protected function getObjectManager($object = null)
     {
@@ -36,7 +40,7 @@ class AbstractController extends Controller
     /**
      * Get session
      *
-     * @return \Symfony\Component\HttpFoundation\Session\SessionInterface
+     * @return SessionInterface
      */
     protected function getSession()
     {
@@ -46,7 +50,7 @@ class AbstractController extends Controller
     /**
      * Get paginator
      *
-     * @return \Knp\Component\Pager\Paginator
+     * @return Paginator
      */
     protected function getPaginator()
     {
@@ -56,7 +60,7 @@ class AbstractController extends Controller
     /**
      * Get current page
      *
-     * @param  \Symfony\Component\HttpFoundation\Request  $request
+     * @param  Request  $request
      * @return integer
      */
     protected function getCurrentPage(Request $request)
@@ -67,9 +71,9 @@ class AbstractController extends Controller
     /**
      * Adds a flash message for type
      *
-     * @param  string                     $type
-     * @param  string                     $message
-     * @throws \InvalidArgumentException
+     * @param  string                    $type
+     * @param  string                    $message
+     * @throws InvalidArgumentException
      */
     protected function addSessionFlash($type, $message)
     {
@@ -77,7 +81,7 @@ class AbstractController extends Controller
         if ($session instanceof Session) {
             $session->getFlashBag()->add($type, $message);
         } else {
-            throw new \InvalidArgumentException("Session should be an instance of Symfony\\Component\\HttpFoundation\\Session\\Session");
+            throw new InvalidArgumentException("Session should be an instance of Symfony\\Component\\HttpFoundation\\Session\\Session");
         }
 
     }

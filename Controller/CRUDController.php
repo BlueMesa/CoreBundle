@@ -12,12 +12,15 @@
 namespace Bluemesa\Bundle\CoreBundle\Controller;
 
 use Bluemesa\Bundle\CoreBundle\Entity\Entity;
+use Bluemesa\Bundle\CoreBundle\Filter\ListFilterInterface;
 use Bluemesa\Bundle\CoreBundle\Repository\EntityRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use Doctrine\ORM\NoResultException;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
 
@@ -50,8 +53,8 @@ abstract class CRUDController extends AbstractController
      * @Route("/list/{filter}")
      * @Template()
      *
-     * @param  \Symfony\Component\HttpFoundation\Request   $request
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @param  Request         $request
+     * @return Response|array
      */
     public function listAction(Request $request)
     {
@@ -78,9 +81,9 @@ abstract class CRUDController extends AbstractController
      * @Route("/show/{id}")
      * @Template()
      *
-     * @param  \Symfony\Component\HttpFoundation\Request           $request
-     * @param  mixed                                               $id
-     * @return \Symfony\Component\HttpFoundation\Response | array
+     * @param  Request         $request
+     * @param  mixed           $id
+     * @return Response|array
      */
     public function showAction(Request $request, $id)
     {
@@ -95,8 +98,8 @@ abstract class CRUDController extends AbstractController
      * @Route("/new")
      * @Template()
      *
-     * @param  \Symfony\Component\HttpFoundation\Request   $request
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @param  Request         $request
+     * @return Response|array
      */
     public function createAction(Request $request)
     {
@@ -126,9 +129,9 @@ abstract class CRUDController extends AbstractController
      * @Route("/edit/{id}")
      * @Template()
      *
-     * @param  \Symfony\Component\HttpFoundation\Request   $request
-     * @param  mixed                                       $id
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @param  Request         $request
+     * @param  mixed           $id
+     * @return Response|array
      */
     public function editAction(Request $request, $id)
     {
@@ -156,9 +159,9 @@ abstract class CRUDController extends AbstractController
      * @Route("/delete/{id}")
      * @Template()
      *
-     * @param  \Symfony\Component\HttpFoundation\Request   $request
-     * @param  mixed                                       $id
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @param  Request         $request
+     * @param  mixed           $id
+     * @return Response|array
      */
     public function deleteAction(Request $request, $id)
     {
@@ -187,9 +190,9 @@ abstract class CRUDController extends AbstractController
     /**
      * Get entity
      *
-     * @param  mixed                                                          $id
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
-     * @return \Bluemesa\Bundle\CoreBundle\Entity\Entity
+     * @param  mixed                  $id
+     * @throws NotFoundHttpException
+     * @return Entity
      */
     protected function getEntity($id)
     {
@@ -211,9 +214,9 @@ abstract class CRUDController extends AbstractController
     }
 
     /**
-     * @param  \Symfony\Component\HttpFoundation\Request                   $request
-     * @param  \Bluemesa\Bundle\CoreBundle\Filter\RedirectFilterInterface  $filter
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @param  Request                  $request
+     * @param  RedirectFilterInterface  $filter
+     * @return Response
      */
     protected function getFilterRedirect(Request $request, RedirectFilterInterface $filter)
     {
@@ -223,8 +226,8 @@ abstract class CRUDController extends AbstractController
     /**
      * Get filter
      *
-     * @param  \Symfony\Component\HttpFoundation\Request               $request
-     * @return \Bluemesa\Bundle\CoreBundle\Filter\ListFilterInterface
+     * @param  Request              $request
+     * @return ListFilterInterface
      */
     protected function getFilter(Request $request)
     {
@@ -234,7 +237,7 @@ abstract class CRUDController extends AbstractController
     /**
      * Get create form
      *
-     * @return \Symfony\Component\Form\AbstractType
+     * @return AbstractType
      */
     protected function getCreateForm()
     {
@@ -244,7 +247,7 @@ abstract class CRUDController extends AbstractController
     /**
      * Get edit form
      *
-     * @return \Symfony\Component\Form\AbstractType
+     * @return AbstractType
      */
     protected function getEditForm()
     {

@@ -11,6 +11,7 @@
 
 namespace Bluemesa\Bundle\CoreBundle\Entity;
 
+
 /**
  * Entity interface
  *

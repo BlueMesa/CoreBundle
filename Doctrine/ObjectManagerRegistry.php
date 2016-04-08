@@ -24,12 +24,12 @@ use Doctrine\Common\Persistence\ManagerRegistry;
 class ObjectManagerRegistry
 {
     /**
-     * @var \Doctrine\Common\Persistence\ManagerRegistry
+     * @var ManagerRegistry  $doctrineManagerRegistry
      */
     protected $doctrineManagerRegistry;
     
     /**
-     * @var array
+     * @var array  $managers
      */
     private $managers;
 
@@ -41,7 +41,7 @@ class ObjectManagerRegistry
      *     "managerRegistry" = @DI\Inject("doctrine"),
      * })
      * 
-     * @param \Doctrine\Common\Persistence\ManagerRegistry  $managerRegistry
+     * @param ManagerRegistry  $managerRegistry
      */
     public function __construct(ManagerRegistry $managerRegistry)
     {
@@ -52,8 +52,8 @@ class ObjectManagerRegistry
     /**
      * Get manager for class
      *
-     * @param  $object
-     * @return \Bluemesa\Bundle\CoreBundle\Doctrine\ObjectManager
+     * @param  object         $object
+     * @return ObjectManager
      */
     public function getManagerForClass($object = null)
     {
@@ -81,7 +81,7 @@ class ObjectManagerRegistry
     /**
      * Add ObjectManager to the registry
      * 
-     * @param \Bluemesa\Bundle\CoreBundle\Doctrine\ObjectManager  $manager
+     * @param ObjectManager  $manager
      */
     public function addManager(ObjectManager $manager)
     {

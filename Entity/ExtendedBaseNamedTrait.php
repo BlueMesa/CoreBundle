@@ -22,7 +22,7 @@ trait ExtendedBaseNamedTrait
     use BaseNamedTrait;
     
     /**
-     * Return string representation of StorageUnit
+     * Return string representation of Entity
      *
      * @return string
      */

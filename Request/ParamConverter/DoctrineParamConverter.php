@@ -31,7 +31,7 @@ class DoctrineParamConverter extends SensioDoctrineParamConverter
     /**
      * @DI\InjectParams({"registry" = @DI\Inject("doctrine")})
      * 
-     * @param \Doctrine\Common\Persistence\ManagerRegistry $registry
+     * @param ManagerRegistry  $registry
      */
     public function __construct(ManagerRegistry $registry = null)
     {
@@ -41,10 +41,10 @@ class DoctrineParamConverter extends SensioDoctrineParamConverter
     /**
      * Apply the converter
      *
-     * @param  \Symfony\Component\HttpFoundation\Request                         $request
-     * @param  \Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter  $configuration
+     * @param  Request                $request
+     * @param  ParamConverter         $configuration
      * @return boolean
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     * @throws NotFoundHttpException
      */
     public function apply(Request $request, ParamConverter $configuration)
     {
@@ -68,7 +68,7 @@ class DoctrineParamConverter extends SensioDoctrineParamConverter
     /**
      * Get options
      *
-     * @param  \Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter $configuration
+     * @param  ParamConverter  $configuration
      * @return array
      */
     protected function getOptions(ParamConverter $configuration)

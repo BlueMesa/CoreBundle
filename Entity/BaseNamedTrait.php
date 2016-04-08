@@ -22,7 +22,7 @@ trait BaseNamedTrait
     /**
      * Set name
      *
-     * @param string $name
+     * @param string  $name
      */
     public function setName($name)
     {

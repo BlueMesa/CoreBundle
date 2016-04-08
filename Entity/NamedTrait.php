@@ -30,13 +30,13 @@ trait NamedTrait
      * @Serializer\Expose
      * @Assert\NotBlank(message = "Name must be specified")
      *
-     * @var string
+     * @var string $name
      */
     protected $name;
     
     
     /**
-     * Return string representation of StorageUnit
+     * Return string representation of Entity
      *
      * @return string
      */

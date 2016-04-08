@@ -11,11 +11,14 @@
 
 namespace Bluemesa\Bundle\CoreBundle\Repository;
 
-
 use Bluemesa\Bundle\CoreBundle\DependencyInjection\ObjectManagerAwareTrait;
 use Bluemesa\Bundle\CoreBundle\Filter\ListFilterInterface;
 use Bluemesa\Bundle\CoreBundle\Filter\EntityFilterInterface;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityRepository as BaseEntityRepository;
+use Doctrine\ORM\Query;
+use Doctrine\ORM\QueryBuilder;
+
 
 /**
  * EntityRepository
@@ -28,8 +31,8 @@ class EntityRepository extends BaseEntityRepository
     
     /**
      *
-     * @param  \Bluemesa\Bundle\CoreBundle\Filter\ListFilterInterface  $filter
-     * @return \Doctrine\Common\Collections\Collection
+     * @param  ListFilterInterface  $filter
+     * @return Collection
      */
     public function getList(ListFilterInterface $filter = null)
     {
@@ -38,8 +41,8 @@ class EntityRepository extends BaseEntityRepository
 
     /**
      *
-     * @param  \Bluemesa\Bundle\CoreBundle\Filter\ListFilterInterface  $filter
-     * @return \Doctrine\ORM\Query
+     * @param  ListFilterInterface  $filter
+     * @return Query
      */
     public function getListQuery(ListFilterInterface $filter = null)
     {
@@ -50,8 +53,8 @@ class EntityRepository extends BaseEntityRepository
 
     /**
      *
-     * @param  \Bluemesa\Bundle\CoreBundle\Filter\ListFilterInterface  $filter
-     * @return \Doctrine\ORM\QueryBuilder
+     * @param  ListFilterInterface  $filter
+     * @return QueryBuilder
      */
     protected function getListQueryBuilder(ListFilterInterface $filter = null)
     {
@@ -60,7 +63,7 @@ class EntityRepository extends BaseEntityRepository
 
     /**
      *
-     * @param  \Bluemesa\Bundle\CoreBundle\Filter\ListFilterInterface  $filter
+     * @param  ListFilterInterface $filter
      * @return integer
      */
     public function getListCount(ListFilterInterface $filter = null)
@@ -70,8 +73,8 @@ class EntityRepository extends BaseEntityRepository
 
     /**
      *
-     * @param  \Bluemesa\Bundle\CoreBundle\Filter\ListFilterInterface  $filter
-     * @return \Doctrine\ORM\Query
+     * @param  ListFilterInterface $filter
+     * @return Query
      */
     public function getCountQuery(ListFilterInterface $filter = null)
     {
@@ -82,8 +85,8 @@ class EntityRepository extends BaseEntityRepository
 
     /**
      *
-     * @param  \Bluemesa\Bundle\CoreBundle\Filter\ListFilterInterface  $filter
-     * @return \Doctrine\ORM\QueryBuilder
+     * @param  ListFilterInterface $filter
+     * @return QueryBuilder
      */
     protected function getCountQueryBuilder(ListFilterInterface $filter = null)
     {
@@ -94,9 +97,9 @@ class EntityRepository extends BaseEntityRepository
     /**
      * Get a single Entity by its id
      *
-     * @param  mixed                                                     $id
-     * @param  \Bluemesa\Bundle\CoreBundle\Filter\EntityFilterInterface  $filter
-     * @return \Doctrine\ORM\QueryBuilder
+     * @param  mixed                  $id
+     * @param  EntityFilterInterface  $filter
+     * @return QueryBuilder
      */
     public function getEntity($id, EntityFilterInterface $filter = null)
     {
@@ -106,9 +109,9 @@ class EntityRepository extends BaseEntityRepository
     /**
      * Get Entity Query Builder
      *
-     * @param  mixed                                                     $id
-     * @param  \Bluemesa\Bundle\CoreBundle\Filter\EntityFilterInterface  $filter
-     * @return \Doctrine\ORM\QueryBuilder
+     * @param  mixed                 $id
+     * @param  EntityFilterInterface $filter
+     * @return QueryBuilder
      */
     protected function getEntityQueryBuilder($id, EntityFilterInterface $filter = null)
     {

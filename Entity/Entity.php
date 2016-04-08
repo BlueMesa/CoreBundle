@@ -33,6 +33,7 @@ class Entity implements EntityInterface
      */
     protected $id;
 
+    
     /**
      * {@inheritdoc}
      */

@@ -30,7 +30,7 @@ trait UniqueNamedTrait
      * @Serializer\Expose
      * @Assert\NotBlank(message = "Name must be specified")
      *
-     * @var string
+     * @var string  $name  Name of the entity
      */
     protected $name;
 }
