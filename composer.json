@@ -27,6 +27,7 @@
     "sensio/framework-extra-bundle": "~3.0",
     "doctrine/common": "~2.5",
     "doctrine/orm": "~2.5",
+    "doctrine/doctrine-bundle": "~1.4",
     "jms/di-extra-bundle": "~1.6",
     "jms/serializer-bundle": "~1.0",
     "knplabs/knp-paginator-bundle": "~2.5"
