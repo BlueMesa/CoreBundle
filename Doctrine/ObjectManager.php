@@ -11,9 +11,10 @@
 
 namespace Bluemesa\Bundle\CoreBundle\Doctrine;
 
-use Bluemesa\Bundle\CoreBundle\Repository\EntityRepository;
+use Bluemesa\Bundle\CoreBundle\Entity\EntityInterface;
 use Bluemesa\Bundle\CoreBundle\Filter\ListFilterInterface;
 use Bluemesa\Bundle\CoreBundle\Filter\EntityFilterInterface;
+use Bluemesa\Bundle\CoreBundle\Repository\EntityRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\Common\Persistence\ObjectManagerDecorator;
@@ -33,7 +34,7 @@ class ObjectManager extends ObjectManagerDecorator
     /**
      * @var string  MANAGED_INTERFACE  Interface that classes managed by this ObjectManager must implement
      */
-    const MANAGED_INTERFACE = 'Bluemesa\Bundle\CoreBundle\Entity\EntityInterface';
+    const MANAGED_INTERFACE = EntityInterface::class;
     
     
     /**
@@ -60,7 +61,7 @@ class ObjectManager extends ObjectManagerDecorator
         $score = 0;
                 
         foreach ($managers as $manager) {
-            if ($manager != 'Doctrine\Common\Persistence\ObjectManagerDecorator') {
+            if ($manager != ObjectManagerDecorator::class) {
                 if (in_array($manager::MANAGED_INTERFACE, class_implements($class))) {
                     $score += 1;
                 } else {
@@ -81,7 +82,7 @@ class ObjectManager extends ObjectManagerDecorator
         $repository = $this->wrapped->getRepository($className);
 
         if (! $repository instanceof EntityRepository) {
-            throw new \ErrorException('Repository must be an instance of Bluemesa\Bundle\CoreBundle\Repository\EntityRepository');
+            throw new \ErrorException('Repository must be an instance of ' . EntityRepository::class);
         }
 
         return $repository;
@@ -102,7 +103,7 @@ class ObjectManager extends ObjectManagerDecorator
         if (($filter !== null)&&(! $filter instanceof EntityFilterInterface)) {
             throw new \InvalidArgumentException('Argument 3 passed to '
                     . get_class($this) . ' must be an instance of '
-                    . 'Bluemesa\Bundle\CoreBundle\Filter\EntityFilterInterface, '
+                    . EntityFilterInterface::class . ', '
                     . ((($type = gettype($filter)) == 'object') ? get_class($filter) : $type)
                     . ' given');
         }
