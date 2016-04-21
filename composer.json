@@ -30,7 +30,8 @@
     "doctrine/doctrine-bundle": "~1.4",
     "jms/di-extra-bundle": "~1.6",
     "jms/serializer-bundle": "~1.0",
-    "knplabs/knp-paginator-bundle": "~2.5"
+    "knplabs/knp-paginator-bundle": "~2.5",
+    "bluemesa/forms-bundle": "dev-master"
   },
   "require-dev": {
     "phpunit/phpunit": "5.0"
