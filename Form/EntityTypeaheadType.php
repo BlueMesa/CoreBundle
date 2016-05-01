@@ -57,7 +57,7 @@ class EntityTypeaheadType extends AbstractType
 
         if (null === $data_link) {
             if (null === $data_route) {
-                $data_link = $this->router->generate('BluemesaFormsBundle_ajax_choices',
+                $data_link = $this->router->generate('BluemesaCoreBundle_ajax_choices',
                     array('class' => $options['class'],
                           'property' => $options['choice_label']));
             } else {
