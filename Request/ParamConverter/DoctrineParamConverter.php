@@ -24,7 +24,7 @@ use JMS\DiExtraBundle\Annotation as DI;
  * @author Radoslaw Kamil Ejsmont <radoslaw@ejsmont.net>
  * 
  * @DI\Service("bluemesa.converter.doctrine")
- * @DI\Tag("request.param_converter", attributes = {"priority"=2, "converter"="bluemesa.core.doctrine"})
+ * @DI\Tag("request.param_converter", attributes = {"priority"=2, "converter"="bluemesa.converter.doctrine"})
  */
 class DoctrineParamConverter extends SensioDoctrineParamConverter
 {
