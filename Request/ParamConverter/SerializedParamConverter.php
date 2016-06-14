@@ -24,7 +24,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  * @author Radoslaw Kamil Ejsmont <radoslaw@ejsmont.net>
  *
  * @DI\Service("bluemesa.converter.serialized")
- * @DI\Tag("request.param_converter", attributes = {"converter"="bluemesa_core.serialized"})
+ * @DI\Tag("request.param_converter", attributes = {"converter"="bluemesa_core.serialized", "priority"="false"})
  */
 class SerializedParamConverter implements ParamConverterInterface
 {

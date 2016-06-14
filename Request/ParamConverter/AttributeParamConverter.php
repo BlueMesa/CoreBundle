@@ -24,7 +24,7 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
  * @author Radoslaw Kamil Ejsmont <radoslaw@ejsmont.net>
  *
  * @DI\Service("bluemesa.converter.attribute")
- * @DI\Tag("request.param_converter", attributes = {"converter"="bluemesa_core.attribute"})
+ * @DI\Tag("request.param_converter", attributes = {"converter"="bluemesa_core.attribute", "priority"="false"})
  */
 class AttributeParamConverter implements ParamConverterInterface
 {
