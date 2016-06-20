@@ -29,10 +29,17 @@ class DatePeriod
      */
     private $end;
 
+    /**
+     * @var int
+     */
+    private $period;
+
 
     public function __construct()
     {
-        $this->setPeriod(self::LastDay);
+        $this->period = null;
+        $this->start = null;
+        $this->end = null;
     }
 
     /**
@@ -40,13 +47,19 @@ class DatePeriod
      */
     public function getStart()
     {
+        if ((null === $this->end)&&(null !== $this->period)) {
+            $now = new \DateTime();
+
+            return $now->sub(new \DateInterval('PT' . $this->period . 'H'));
+        }
+
         return $this->start;
     }
 
     /**
      * @param \DateTime $start
      */
-    public function setStart(\DateTime $start)
+    public function setStart(\DateTime $start = null)
     {
         $this->start = $start;
     }
@@ -56,32 +69,36 @@ class DatePeriod
      */
     public function getEnd()
     {
+        if ((null === $this->end)&&(null !== $this->period)) {
+
+            return new \DateTime();
+        }
+
         return $this->end;
     }
 
     /**
      * @param \DateTime $end
      */
-    public function setEnd(\DateTime $end)
+    public function setEnd(\DateTime $end = null)
     {
         $this->end = $end;
     }
 
     /**
-     * @return string
+     * @return int
      */
     public function getPeriod()
     {
-        return null;
+        return $this->period;
     }
 
     /**
      * @param int $period
+     *
      */
     public function setPeriod($period)
     {
-        $now = new \DateTime();
-        $this->end = clone $now;
-        $this->start = $now->sub(new \DateInterval('PT' . $period . 'H'));
+        $this->period = $period;
     }
 }

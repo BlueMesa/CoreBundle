@@ -47,7 +47,6 @@ class DatePeriodParamConverter implements ParamConverterInterface
                 $period->setEnd($this->getDate($request->attributes->get($options['end_attribute']), $options));
             }
         } elseif ($request->attributes->has($options['period_attribute'])) {
-            echo "<pre>" . "Setting period to " . $request->attributes->get($options['period_attribute']) . "</pre>";
             $period->setPeriod($request->attributes->get($options['period_attribute']));
         } elseif ($configuration->isOptional()) {
             $period = null;
