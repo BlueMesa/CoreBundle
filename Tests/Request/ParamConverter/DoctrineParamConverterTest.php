@@ -16,8 +16,16 @@ use Bluemesa\Bundle\CoreBundle\Request\ParamConverter\DoctrineParamConverter;
 
 class DoctrineParamConverterTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var DoctrineParamConverter
+     */
     private $converter;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
     private $registry;
+
 
     public function testApply()
     {
@@ -26,8 +34,8 @@ class DoctrineParamConverterTest extends \PHPUnit_Framework_TestCase
 
         $config = $this->createConfiguration('stdClass', array('id' => 'id'), 'arg');
 
-        $manager = $this->getMock('Doctrine\Common\Persistence\ObjectManager');
-        $objectRepository = $this->getMock('Doctrine\Common\Persistence\ObjectRepository');
+        $manager = $this->getMockBuilder('Doctrine\Common\Persistence\ObjectManager')->getMock();
+        $objectRepository = $this->getMockBuilder('Doctrine\Common\Persistence\ObjectRepository')->getMock();
         $this->registry->expects($this->once())
               ->method('getManagerForClass')
               ->with('stdClass')
@@ -56,8 +64,8 @@ class DoctrineParamConverterTest extends \PHPUnit_Framework_TestCase
 
         $config = $this->createConfiguration('stdClass', array('id' => 'id'), 'arg');
 
-        $manager = $this->getMock('Doctrine\Common\Persistence\ObjectManager');
-        $objectRepository = $this->getMock('Doctrine\Common\Persistence\ObjectRepository');
+        $manager = $this->getMockBuilder('Doctrine\Common\Persistence\ObjectManager')->getMock();
+        $objectRepository = $this->getMockBuilder('Doctrine\Common\Persistence\ObjectRepository')->getMock();
         $this->registry->expects($this->once())
               ->method('getManagerForClass')
               ->with('stdClass')
@@ -73,13 +81,13 @@ class DoctrineParamConverterTest extends \PHPUnit_Framework_TestCase
                       ->with($this->equalTo(1))
                       ->will($this->returnValue(null));
 
-        $this->setExpectedException('Symfony\Component\HttpKernel\Exception\NotFoundHttpException');
+        $this->expectException('Symfony\Component\HttpKernel\Exception\NotFoundHttpException');
         $this->converter->apply($request, $config);
     }
 
     protected function setUp()
     {
-        $this->registry = $this->getMock('Doctrine\Common\Persistence\ManagerRegistry');
+        $this->registry = $this->getMockBuilder('Doctrine\Common\Persistence\ManagerRegistry')->getMock();
         $this->converter = new DoctrineParamConverter($this->registry);
     }
 
