@@ -13,6 +13,7 @@ namespace Bluemesa\Bundle\CoreBundle\Doctrine;
 
 use JMS\DiExtraBundle\Annotation as DI;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Common\Persistence\ObjectManager;
 
 /**
  * Doctrine Object Manager registry
@@ -47,6 +48,14 @@ class ObjectManagerRegistry
     {
         $this->managers = array();
         $this->doctrineManagerRegistry = $managerRegistry;
+    }
+
+    /**
+     * @return ObjectManager
+     */
+    public function getManager()
+    {
+        return $this->getManagerForClass();
     }
 
     /**
