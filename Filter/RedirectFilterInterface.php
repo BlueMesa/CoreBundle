@@ -15,7 +15,7 @@ namespace Bluemesa\Bundle\CoreBundle\Filter;
  *
  * @author Radoslaw Kamil Ejsmont <radoslaw@ejsmont.net>
  */
-interface RedirectFilterInterface {
+interface RedirectFilterInterface extends FilterInterface {
     
     /**
      * Is list redirect needed?

@@ -9,12 +9,16 @@
  * file that was distributed with this source code.
  */
 
-namespace Bluemesa\Bundle\CoreBundle\Filter;
 
-/**
- *
- * @author Radoslaw Kamil Ejsmont <radoslaw@ejsmont.net>
- */
-interface EntityFilterInterface extends FilterInterface {
-    
+namespace Bluemesa\Bundle\CoreBundle\Repository;
+
+
+use Bluemesa\Bundle\CrudBundle\Filter\FilterInterface;
+
+interface FilteredRepositoryInterface
+{
+    /**
+     * @param FilterInterface $filter
+     */
+    public function setFilter(FilterInterface $filter);
 }

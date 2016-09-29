@@ -15,7 +15,7 @@ namespace Bluemesa\Bundle\CoreBundle\Filter;
  *
  * @author Radoslaw Kamil Ejsmont <radoslaw@ejsmont.net>
  */
-interface SortFilterInterface {
+interface SortFilterInterface extends FilterInterface {
     
     /**
      * Get sort

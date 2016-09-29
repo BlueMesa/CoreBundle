@@ -16,6 +16,7 @@ use Bluemesa\Bundle\CoreBundle\Filter\ListFilterInterface;
 use Bluemesa\Bundle\CoreBundle\Filter\EntityFilterInterface;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityRepository as BaseEntityRepository;
+use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 
@@ -25,12 +26,21 @@ use Doctrine\ORM\QueryBuilder;
  *
  * @author Radoslaw Kamil Ejsmont <radoslaw@ejsmont.net>
  */
-class EntityRepository extends BaseEntityRepository
+class EntityRepository extends BaseEntityRepository implements FilteredRepositoryInterface
 {
     use ObjectManagerAwareTrait;
-    
+    use FilteredRepositoryTrait;
+
     /**
-     *
+     * {@inheritdoc}
+     */
+    public function __construct($em, ClassMetadata $class)
+    {
+        $this->filter = null;
+        parent::__construct($em, $class);
+    }
+
+    /**
      * @param  ListFilterInterface  $filter
      * @return Collection
      */
@@ -40,7 +50,6 @@ class EntityRepository extends BaseEntityRepository
     }
 
     /**
-     *
      * @param  ListFilterInterface  $filter
      * @return Query
      */
@@ -52,7 +61,6 @@ class EntityRepository extends BaseEntityRepository
     }
 
     /**
-     *
      * @param  ListFilterInterface  $filter
      * @return QueryBuilder
      */
@@ -62,7 +70,6 @@ class EntityRepository extends BaseEntityRepository
     }
 
     /**
-     *
      * @param  ListFilterInterface $filter
      * @return integer
      */
@@ -72,7 +79,6 @@ class EntityRepository extends BaseEntityRepository
     }
 
     /**
-     *
      * @param  ListFilterInterface $filter
      * @return Query
      */
@@ -84,7 +90,6 @@ class EntityRepository extends BaseEntityRepository
     }
 
     /**
-     *
      * @param  ListFilterInterface $filter
      * @return QueryBuilder
      */
