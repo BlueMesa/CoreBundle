@@ -13,7 +13,7 @@
 namespace Bluemesa\Bundle\CoreBundle\Repository;
 
 
-use Bluemesa\Bundle\CrudBundle\Filter\FilterInterface;
+use Bluemesa\Bundle\CoreBundle\Filter\FilterInterface;
 
 trait FilteredRepositoryTrait
 {

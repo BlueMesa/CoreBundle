@@ -26,10 +26,9 @@ use Doctrine\ORM\QueryBuilder;
  *
  * @author Radoslaw Kamil Ejsmont <radoslaw@ejsmont.net>
  */
-class EntityRepository extends BaseEntityRepository implements FilteredRepositoryInterface
+class EntityRepository extends BaseEntityRepository implements EntityRepositoryInterface
 {
     use ObjectManagerAwareTrait;
-    use FilteredRepositoryTrait;
 
     /**
      * {@inheritdoc}
@@ -41,6 +40,57 @@ class EntityRepository extends BaseEntityRepository implements FilteredRepositor
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function createIndexQueryBuilder()
+    {
+        return $this->createQueryBuilder('e');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function createIndexQuery()
+    {
+        return $this->createIndexQueryBuilder()->getQuery();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getIndexResult()
+    {
+        return $this->createIndexQuery()->getResult();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function createCountQueryBuilder()
+    {
+        return $this->createQueryBuilder('e')
+            ->select('count(e.id)');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function createCountQuery()
+    {
+        return $this->createCountQueryBuilder()->getQuery();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getIndexCount()
+    {
+        return $this->createCountQuery()->getResult();
+    }
+
+
+    /**
+     * @deprecated
      * @param  ListFilterInterface  $filter
      * @return Collection
      */
@@ -50,6 +100,7 @@ class EntityRepository extends BaseEntityRepository implements FilteredRepositor
     }
 
     /**
+     * @deprecated
      * @param  ListFilterInterface  $filter
      * @return Query
      */
@@ -61,6 +112,7 @@ class EntityRepository extends BaseEntityRepository implements FilteredRepositor
     }
 
     /**
+     * @deprecated
      * @param  ListFilterInterface  $filter
      * @return QueryBuilder
      */
@@ -70,6 +122,7 @@ class EntityRepository extends BaseEntityRepository implements FilteredRepositor
     }
 
     /**
+     * @deprecated
      * @param  ListFilterInterface $filter
      * @return integer
      */
@@ -79,6 +132,7 @@ class EntityRepository extends BaseEntityRepository implements FilteredRepositor
     }
 
     /**
+     * @deprecated
      * @param  ListFilterInterface $filter
      * @return Query
      */
@@ -90,6 +144,7 @@ class EntityRepository extends BaseEntityRepository implements FilteredRepositor
     }
 
     /**
+     * @deprecated
      * @param  ListFilterInterface $filter
      * @return QueryBuilder
      */
@@ -102,6 +157,7 @@ class EntityRepository extends BaseEntityRepository implements FilteredRepositor
     /**
      * Get a single Entity by its id
      *
+     * @deprecated
      * @param  mixed                  $id
      * @param  EntityFilterInterface  $filter
      * @return QueryBuilder
@@ -114,6 +170,7 @@ class EntityRepository extends BaseEntityRepository implements FilteredRepositor
     /**
      * Get Entity Query Builder
      *
+     * @deprecated
      * @param  mixed                 $id
      * @param  EntityFilterInterface $filter
      * @return QueryBuilder
