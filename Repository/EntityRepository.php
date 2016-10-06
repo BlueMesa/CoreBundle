@@ -68,7 +68,7 @@ class EntityRepository extends BaseEntityRepository implements EntityRepositoryI
      */
     public function createCountQueryBuilder()
     {
-        return $this->createQueryBuilder('e')
+        return $this->createIndexQueryBuilder()
             ->select('count(e.id)');
     }
 
