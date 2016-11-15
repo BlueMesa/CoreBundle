@@ -13,6 +13,7 @@ namespace Bluemesa\Bundle\CoreBundle\Filter;
 
 /**
  *
+ * @deprecated Use Bluemesa\Bundle\CrudBundle\Filter\RedirectFilterInterface
  * @author Radoslaw Kamil Ejsmont <radoslaw@ejsmont.net>
  */
 interface RedirectFilterInterface extends FilterInterface {
