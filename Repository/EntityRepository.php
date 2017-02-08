@@ -85,7 +85,7 @@ class EntityRepository extends BaseEntityRepository implements EntityRepositoryI
      */
     public function getIndexCount()
     {
-        return $this->createCountQuery()->getResult();
+        return $this->createCountQuery()->getSingleScalarResult();
     }
 
 
