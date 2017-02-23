@@ -86,7 +86,19 @@ class ObjectManagerRegistry
         
         return $this->doctrineManagerRegistry->getManagerForClass($class);
     }
-    
+
+    /**
+     * Gets the ObjectRepository for an persistent object.
+     *
+     * @param string $persistentObject      The name of the persistent object.
+     *
+     * @return \Doctrine\Common\Persistence\ObjectRepository
+     */
+    public function getRepository($persistentObject)
+    {
+        return $this->getManagerForClass($persistentObject)->getRepository($persistentObject);
+    }
+
     /**
      * Add ObjectManager to the registry
      * 
