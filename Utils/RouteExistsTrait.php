@@ -24,8 +24,7 @@ trait RouteExistsTrait
     private function routeExists($route)
     {
         if (! $this->router instanceof RouterInterface) {
-            throw new \LogicException(
-                "Calling class must have a router property set to an instance of RouterInterface");
+            throw new \LogicException("Calling class must have router property set to RouterInterface instance");
         }
 
         try {

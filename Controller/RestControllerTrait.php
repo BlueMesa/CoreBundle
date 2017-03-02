@@ -31,11 +31,11 @@ trait RestControllerTrait
      */
     protected function getViewHandler()
     {
-        if (!((isset($this->container))&&($this->container instanceof ContainerInterface))) {
+        if (! $this->container instanceof ContainerInterface) {
             throw new \LogicException("This trait may only be used inside Controllers");
         }
 
-        if (!$this->viewhandler instanceof ViewHandlerInterface) {
+        if (! $this->viewhandler instanceof ViewHandlerInterface) {
             $this->viewhandler = $this->container->get('fos_rest.view_handler');
         }
 
