@@ -40,8 +40,8 @@ class Action
      */
     public function __construct(array $values)
     {
-        $this->action = $values['value'];
-        $this->redirect = $values['redirect'];
+        $this->action = array_key_exists('value', $values) ? $values['value'] : null;
+        $this->redirect = array_key_exists('redirect', $values) ? $values['redirect'] : null;
     }
 
     /**
