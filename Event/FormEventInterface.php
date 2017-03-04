@@ -12,18 +12,18 @@
 
 namespace Bluemesa\Bundle\CoreBundle\Event;
 
-use FOS\RestBundle\View\View;
+use Symfony\Component\Form\FormInterface;
 
 
-interface ViewEventInterface
+interface FormEventInterface
 {
     /**
-     * @return View
+     * @return FormInterface
      */
-    public function getView();
+    public function getForm();
 
     /**
-     * @param View $view
+     * @param FormInterface $form
      */
-    public function setView($view);
+    public function setForm(FormInterface $form);
 }

@@ -13,12 +13,15 @@
 namespace Bluemesa\Bundle\CoreBundle\Event;
 
 
-use Symfony\Component\HttpFoundation\Request;
-
 interface ResultEventInterface
 {
     /**
-     * @return Request
+     * @return mixed
      */
     public function getResult();
+
+    /**
+     * @param mixed $result
+     */
+    public function setResult($result);
 }

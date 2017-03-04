@@ -84,7 +84,7 @@ trait FormHandlerTrait
      * @return Event
      */
     protected function createEvent($class, Request $request, $entity,
-                                 $result = null, FormInterface $form = null, View $view = null)
+                                   $result = null, FormInterface $form = null, View $view = null)
     {
         if (is_a($class, ResultEventInterface::class, true)) {
             $event = new $class($request, $entity, $result, $form, $view);
